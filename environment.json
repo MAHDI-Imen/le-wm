@@ -1,0 +1,44 @@
+{
+  "timestamp": "2026-04-03T13:18:47.720457",
+  "python": {
+    "version": "3.10.16 (main, Dec 11 2024, 16:24:50) [GCC 11.2.0]",
+    "version_info": {
+      "major": 3,
+      "minor": 10,
+      "micro": 16
+    },
+    "executable": "/home/mahdi/workspace/le-wm/.venv/bin/python",
+    "prefix": "/home/mahdi/workspace/le-wm/.venv"
+  },
+  "system": {
+    "platform": "Linux-6.8.0-106-generic-x86_64-with-glibc2.39",
+    "system": "Linux",
+    "release": "6.8.0-106-generic",
+    "machine": "x86_64",
+    "processor": "x86_64",
+    "hostname": "lindor"
+  },
+  "packages": {
+    "pip_freeze": "Error getting pip freeze: Command '['/home/mahdi/workspace/le-wm/.venv/bin/python', '-m', 'pip', 'freeze']' returned non-zero exit status 1.",
+    "key_packages": {},
+    "total_packages": 0
+  },
+  "cuda": {
+    "nvidia_smi_output": "NVIDIA GeForce RTX 4060 Ti, 590.48.01, 16380 MiB",
+    "driver_version": "590.48.01"
+  },
+  "git": {
+    "commit_hash": "ca231f9f9d9ab041034b6d05e90b6e04bd6cff82",
+    "branch": "main",
+    "has_uncommitted_changes": true,
+    "uncommitted_changes": "M config/train/lewm.yaml\n?? __pycache__/\n?? checkpoints/\n?? data/\n?? outputs/\n?? wandb/",
+    "remote_url": null
+  },
+  "slurm": null,
+  "environment_variables": {
+    "PYTHONPATH": "/opt/ros/humble/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages",
+    "LD_LIBRARY_PATH": "/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/home/mahdi/miniconda3/lib:/usr/local/cuda/lib64:",
+    "PATH": "/home/mahdi/workspace/le-wm/.venv/bin:/home/mahdi/.pixi/bin:/opt/ros/humble/bin:/usr/local/cuda/bin:/usr/local/cuda-11.1/bin:/home/mahdi/miniconda3/bin:/home/mahdi/miniconda3/condabin:/home/mahdi/.config/Code/User/globalStorage/github.copilot-chat/debugCommand:/home/mahdi/.config/Code/User/globalStorage/github.copilot-chat/copilotCli:/home/mahdi/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/mahdi/.vscode/extensions/ms-python.debugpy-2025.18.0-linux-x64/bundled/scripts/noConfigScripts",
+    "CUDA_DEVICE_ORDER": "PCI_BUS_ID"
+  }
+}

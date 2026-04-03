@@ -1,6 +1,6 @@
 defaults:
   - _self_
-  - data: pusht
+  - data: cube
 
 output_model_name: lewm
 subdir: ${hydra:job.id}
@@ -35,7 +35,7 @@ optimizer:
 wandb:
   enabled: True
   config:
-    entity: lewm
+    entity: imen_mahdi-robot-learning-lab
     project: lewm
     name: ${output_model_name}
     id: ${subdir}
