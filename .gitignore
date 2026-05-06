@@ -211,3 +211,8 @@ wandb/
 checkpoints/
 outputs/
 data/
+classifier/
+analysis/
+lightning_logs/
+*.npz
+visualizations/

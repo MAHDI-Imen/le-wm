@@ -32,11 +32,11 @@ def load_model(checkpoint_dir: str, device: str) -> torch.nn.Module:
     with open(ckpt_dir / "config.json") as f:
         cfg = json.load(f)
 
-    enc_cfg  = cfg["encoder"]
+    enc_cfg = cfg["encoder"]
     pred_cfg = cfg["predictor"]
-    act_cfg  = cfg["action_encoder"]
+    act_cfg = cfg["action_encoder"]
     proj_cfg = cfg["projector"]
-    pp_cfg   = cfg["pred_proj"]
+    pp_cfg = cfg["pred_proj"]
 
     encoder = spt.backbone.utils.vit_hf(
         enc_cfg["size"],
@@ -86,7 +86,9 @@ def load_model(checkpoint_dir: str, device: str) -> torch.nn.Module:
         pred_proj=pred_proj,
     )
 
-    state_dict = torch.load(ckpt_dir / "weights.pt", map_location=device, weights_only=True)
+    state_dict = torch.load(
+        ckpt_dir / "weights.pt", map_location=device, weights_only=True
+    )
     model.load_state_dict(state_dict)
     model.to(device)
     model.eval()
@@ -128,19 +130,27 @@ def collect_embeddings(model, loader, step_idx_per_window, num_steps, device):
 
 
 def reduce_dimensions(embs, method, random_state):
-    print(f"Running {method.upper()} on {len(embs)} embeddings (dim={embs.shape[1]})...")
+    print(
+        f"Running {method.upper()} on {len(embs)} embeddings (dim={embs.shape[1]})..."
+    )
     if method == "umap":
         try:
             import umap  # noqa: PLC0415
+
             reducer = umap.UMAP(n_components=2, random_state=random_state, verbose=True)
         except ImportError:
-            print("umap-learn not installed — falling back to t-SNE. `pip install umap-learn`")
+            print(
+                "umap-learn not installed — falling back to t-SNE. `pip install umap-learn`"
+            )
             method = "tsne"
 
     if method == "tsne":
         from sklearn.manifold import TSNE  # noqa: PLC0415
+
         perplexity = min(30, len(embs) - 1)
-        reducer = TSNE(n_components=2, random_state=random_state, perplexity=perplexity, verbose=1)
+        reducer = TSNE(
+            n_components=2, random_state=random_state, perplexity=perplexity, verbose=1
+        )
 
     reduced = reducer.fit_transform(embs)
     return reduced, method
@@ -172,18 +182,42 @@ def plot(reduced, step_idxs, method, output_path, dataset_name):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Visualize LeWM latent space colored by timestep")
-    parser.add_argument("--checkpoint", required=True, help="Path to checkpoint directory containing config.json and weights.pt")
-    parser.add_argument("--dataset", default="pusht_expert_train", help="Dataset name (default: pusht_expert_train)")
+    parser = argparse.ArgumentParser(
+        description="Visualize LeWM latent space colored by timestep"
+    )
+    parser.add_argument(
+        "--checkpoint",
+        required=True,
+        help="Path to checkpoint directory containing config.json and weights.pt",
+    )
+    parser.add_argument(
+        "--dataset",
+        default="ogbench/cube_single_expert",
+        help="Dataset name (default: pusht_expert_train)",
+    )
     parser.add_argument("--method", default="umap", choices=["umap", "tsne"])
-    parser.add_argument("--n_samples", type=int, default=1000, help="Number of trajectory windows to encode")
-    parser.add_argument("--num_steps", type=int, default=4, help="Frames per window (history_size + num_preds, default: 4)")
-    parser.add_argument("--frameskip", type=int, default=5, help="Dataset frameskip (default: 5)")
+    parser.add_argument(
+        "--n_samples",
+        type=int,
+        default=1000,
+        help="Number of trajectory windows to encode",
+    )
+    parser.add_argument(
+        "--num_steps",
+        type=int,
+        default=4,
+        help="Frames per window (history_size + num_preds, default: 4)",
+    )
+    parser.add_argument(
+        "--frameskip", type=int, default=5, help="Dataset frameskip (default: 5)"
+    )
     parser.add_argument("--batch_size", type=int, default=64)
     parser.add_argument("--img_size", type=int, default=224)
     parser.add_argument("--output", default="embedding_analysis.png")
     parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
+    parser.add_argument(
+        "--device", default="cuda" if torch.cuda.is_available() else "cpu"
+    )
     args = parser.parse_args()
 
     rng = np.random.default_rng(args.seed)
@@ -201,7 +235,9 @@ def main():
         frameskip=args.frameskip,
         keys_to_load=["pixels"],
     )
-    transform = get_img_preprocessor(source="pixels", target="pixels", img_size=args.img_size)
+    transform = get_img_preprocessor(
+        source="pixels", target="pixels", img_size=args.img_size
+    )
     dataset.transform = spt.data.transforms.Compose(transform)
 
     # subsample dataset indices
@@ -221,8 +257,12 @@ def main():
     )
 
     # ── encode ─────────────────────────────────────────────────────────────
-    print(f"Encoding {n} windows × {args.num_steps} frames = {n * args.num_steps} embeddings...")
-    embs, step_idxs = collect_embeddings(model, loader, step_idx_per_window, args.num_steps, args.device)
+    print(
+        f"Encoding {n} windows × {args.num_steps} frames = {n * args.num_steps} embeddings..."
+    )
+    embs, step_idxs = collect_embeddings(
+        model, loader, step_idx_per_window, args.num_steps, args.device
+    )
     print(f"Embedding matrix: {embs.shape}")
 
     # ── dimensionality reduction ────────────────────────────────────────────

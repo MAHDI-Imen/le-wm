@@ -1,8 +1,8 @@
 defaults:
   - _self_
-  - data: cube
+  - data: rlbench
 
-output_model_name: lewm
+output_model_name: lewm-rlbench
 subdir: ${hydra:job.id}
 
 num_workers: 6
@@ -14,8 +14,8 @@ encoder_scale: tiny
 dump_object: True
 
 trainer:
-  max_epochs: 100
-  devices: auto
+  max_epochs: 10
+  devices: 1
   accelerator: gpu
   precision: bf16
   gradient_clip_val: 1.0
