@@ -15,7 +15,7 @@ from jepa import JEPA
 from module import ARPredictor, Embedder, MLP
 from utils import get_img_preprocessor
 
-os.environ["STABLEWM_HOME"] = "/home/mahdi/workspace/le-wm/data"
+# os.environ["STABLEWM_HOME"] = "le-wm/data"
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 
@@ -24,7 +24,7 @@ def load_model(checkpoint_dir: str, device: str) -> torch.nn.Module:
     ckpt_dir = Path(checkpoint_dir)
 
     checkpoint_name = "weights.pt"
-    checkpoint_name = "lewm-rlbench_epoch_8_object.ckpt"
+    # checkpoint_name = "lewm-rlbench_epoch_8_object.ckpt"
 
     if "object" in checkpoint_name:
         # .ckpt file
@@ -100,13 +100,13 @@ def load_model(checkpoint_dir: str, device: str) -> torch.nn.Module:
 
 
 def extract_embeddings(
-    dataset_name: str = "rlbench/rlbench",
+    dataset_name: str = "ogbench/cube_single_expert",
     num_steps: int = 4,
     frameskip: int = 5,
     img_size: int = 224,
     num_episodes: int = 100,
     timesteps_per_episode: int = 10,
-    checkpoint_dir: str = "data/checkpoints/lewm-rlbench",
+    checkpoint_dir: str = "checkpoints/OGB",
     device: str = "cuda",
     output_dir: str = "embeddings",
 ):

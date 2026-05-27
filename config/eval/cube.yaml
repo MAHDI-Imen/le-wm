@@ -23,7 +23,7 @@ dataset:
     - action
 
 seed: 42
-policy: random # ckpt name or random
+policy: OGB # ckpt name or random
 
 plan_config:
   horizon: 5
